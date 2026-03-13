@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>xxxxxxx</title>
+
+<meta name="description" content="Play xxxxxxx online. xxxxxxx is a fast reflex browser game where you hit moving targets and score points. Play xxxxxxx free on mobile and desktop.">
+
+<meta name="keywords" content="xxxxxxx">
+
+<link rel="canonical" href="https://yourdomain.com/xxxxxxx">
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+background:#111;
+color:white;
+text-align:center;
+margin:0;
+}
+
+header{
+padding:20px;
+}
+
+h1{
+font-size:40px;
+}
+
+#gameContainer{
+max-width:600px;
+margin:auto;
+padding:20px;
+}
+
+canvas{
+background:#222;
+border-radius:10px;
+width:100%;
+max-width:500px;
+}
+
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:6px;
+background:#00ff88;
+cursor:pointer;
+margin-top:10px;
+}
+
+#score{
+font-size:22px;
+margin:10px;
+}
+
+@media(max-width:600px){
+
+h1{
+font-size:28px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>xxxxxxx</h1>
+<p>Play xxxxxxx online. Tap the moving target and score points.</p>
+</header>
+
+<div id="gameContainer">
+
+<div id="score">Score: 0</div>
+
+<canvas id="xxxxxxxGame" width="500" height="400"></canvas>
+
+<br>
+<button onclick="startGame()">Start xxxxxxx</button>
+
+</div>
+
+<section style="max-width:700px;margin:auto;padding:20px">
+
+<h2>About xxxxxxx</h2>
+
+<p>
+xxxxxxx is a simple browser reflex game. The goal of xxxxxxx is to click the moving target before it escapes. 
+xxxxxxx works on mobile phones, tablets, and desktop browsers.
+</p>
+
+<h2>How to Play xxxxxxx</h2>
+
+<ul>
+<li>Click the moving circle</li>
+<li>Score points for every hit</li>
+<li>The speed increases over time</li>
+</ul>
+
+</section>
+
+<script>
+
+const canvas = document.getElementById("xxxxxxxGame");
+const ctx = canvas.getContext("2d");
+
+let x = 100;
+let y = 100;
+let radius = 20;
+
+let score = 0;
+let speed = 2;
+let gameRunning = false;
+
+function drawTarget(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.beginPath();
+ctx.arc(x,y,radius,0,Math.PI*2);
+ctx.fillStyle="red";
+ctx.fill();
+
+}
+
+function moveTarget(){
+
+x += speed;
+y += speed;
+
+if(x > canvas.width-20 || x < 20){
+speed = -speed;
+}
+
+if(y > canvas.height-20 || y < 20){
+speed = -speed;
+}
+
+drawTarget();
+
+if(gameRunning){
+requestAnimationFrame(moveTarget);
+}
+
+}
+
+canvas.addEventListener("click", function(event){
+
+const rect = canvas.getBoundingClientRect();
+const mouseX = event.clientX - rect.left;
+const mouseY = event.clientY - rect.top;
+
+const dist = Math.sqrt((mouseX-x)**2 + (mouseY-y)**2);
+
+if(dist < radius){
+
+score++;
+speed += 0.3;
+
+document.getElementById("score").innerText="Score: "+score;
+
+}
+
+});
+
+function startGame(){
+
+score = 0;
+speed = 2;
+gameRunning = true;
+
+document.getElementById("score").innerText="Score: 0";
+
+moveTarget();
+
+}
+
+drawTarget();
+
+</script>
+
+</body>
+</html>
